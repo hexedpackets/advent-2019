@@ -1,6 +1,7 @@
 defmodule Advent.Fuel do
   def solve() do
     Advent.input()
+    |> String.split()
     |> fuel_requirement()
   end
 
