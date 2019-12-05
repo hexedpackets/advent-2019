@@ -1,10 +1,24 @@
 defmodule Advent.Intcode do
   def solve() do
-    Advent.input()
+    program = Advent.input()
     |> String.split(",")
     |> Enum.map(&String.to_integer/1)
-    |> List.replace_at(1, 12)
-    |> List.replace_at(2, 2)
+
+
+    {noun, verb, _} = 0..99
+    |> Enum.flat_map(fn noun -> Enum.map(0..99, fn verb -> {noun, verb} end) end)
+    |> Stream.map(fn {noun, verb} -> {noun, verb, solve(program, noun, verb)} end)
+    |> Stream.filter(fn {_, _, x} -> x == 19690720 end)
+    |> Enum.take(1)
+    |> List.first()
+
+    100 * noun + verb
+  end
+
+  def solve(program, noun, verb) do
+    program
+    |> List.replace_at(1, noun)
+    |> List.replace_at(2, verb)
     |> process()
     |> List.first()
   end
