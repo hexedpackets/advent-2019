@@ -1,4 +1,4 @@
-defmodule Advent.Day1 do
+defmodule Advent.Fuel do
   def solve() do
     Advent.input()
     |> fuel_requirement()
