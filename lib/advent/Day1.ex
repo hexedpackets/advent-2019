@@ -20,14 +20,19 @@ defmodule Advent.Day1 do
       2
 
       iex> fuel_requirement(1969)
-      654
+      966
 
       iex> fuel_requirement(100756)
-      33583
+      50346
   """
-  def fuel_requirement(mass) when is_integer(mass) do
-    Integer.floor_div(mass, 3) - 2
+  def fuel_requirement(mass) when is_binary(mass), do: mass |> String.to_integer() |> fuel_requirement()
+  def fuel_requirement(mass) do
+    case fuel_calc(mass) do
+      0 -> 0
+      req -> req + fuel_requirement(req)
+    end
   end
 
-  def fuel_requirement(mass) when is_binary(mass), do: mass |> String.to_integer() |> fuel_requirement()
+  def fuel_calc(mass) when mass < 6, do: 0
+  def fuel_calc(mass), do: Integer.floor_div(mass, 3) - 2
 end
